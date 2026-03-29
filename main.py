@@ -1,10 +1,11 @@
 from dotenv import load_dotenv
 
 load_dotenv()
+
 from langchain.agents import create_agent
 from langchain.tools import tool
 from langchain_core.messages import HumanMessage
-from langchain_openai import OpenAI, ChatOpenAI
+from langchain_openai import ChatOpenAI
 
 
 @tool
@@ -15,9 +16,8 @@ def search(query: str) -> str:
        query: The query to search for
     Returns:
        The search result
-
     """
-    print("Searching for {query}")
+    print(f"Searching for {query}")   # f-string
     return "Tokyo weather is sunny"
 
 
@@ -28,7 +28,13 @@ agent = create_agent(model=llm, tools=tools)
 
 def main():
     print("Hello from langchain")
-    result = agent.invoke({"messages":HumanMessage(content="What is the weather in Tokyo")})
+    
+    result = agent.invoke({
+        "messages": [HumanMessage(content="What is the weather in Tokyo")]  # list added
+    })
+    
+    print(result)   # print output
 
-    if __name__ == "__main__":
-     main()
+
+if __name__ == "__main__":  
+    main()
